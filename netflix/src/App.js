@@ -11,6 +11,7 @@ function App() {
       <NavBar></NavBar>
       <RowPost url={originals} title="Netflix Origials"></RowPost>
       <RowPost url={action} title="Action" isSmall></RowPost>
+      <RowPost url={action} title="Action" isSmall></RowPost>
     </div>
   );
 }
