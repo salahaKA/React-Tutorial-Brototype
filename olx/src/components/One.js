@@ -1,11 +1,11 @@
 import React from "react";
 import Two from "./Two";
 
-function One(props) {
+function One() {
   return (
     <div style={{ backgroundColor: "blue", width: "500px" }}>
       <h1>Layer One</h1>
-      <Two data={props.data}></Two>
+      <Two></Two>
     </div>
   );
 }
