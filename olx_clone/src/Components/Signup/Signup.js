@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Logo from "../../olx-logo.png";
 import "./Signup.css";
+import { FirebaseContext } from "../../store/FirebaseContex";
+
 function Signup() {
   const [Username, setUsername] = useState("");
   const [Email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [Password, setPassword] = useState("");
 
+  const { firebase } = useContext(FirebaseContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(Username);
+    console.log(firebase);
+    console.log("Username", Username);
+    console.log("Email", Email);
+    console.log("Phone", phone);
+    console.log("Password", Password);
+    // console.log(Username);
   };
 
   return (
@@ -27,7 +35,7 @@ function Signup() {
             onChange={(e) => setUsername(e.target.value)}
             id="fname"
             name="name"
-            defaultValue="John"
+            // defaultValue="John"
           />
           <br />
           <label htmlFor="fname">Email</label>
@@ -39,7 +47,7 @@ function Signup() {
             onChange={(e) => setEmail(e.target.value)}
             id="fname"
             name="email"
-            defaultValue="John"
+            // defaultValue="John"
           />
           <br />
           <label htmlFor="lname">Phone</label>
@@ -51,7 +59,7 @@ function Signup() {
             onChange={(e) => setPhone(e.target.value)}
             id="lname"
             name="phone"
-            defaultValue="Doe"
+            // defaultValue="Doe"
           />
           <br />
           <label htmlFor="lname">Password</label>
@@ -63,7 +71,7 @@ function Signup() {
             onChange={(e) => setPassword(e.target.value)}
             id="lname"
             name="password"
-            defaultValue="Doe"
+            // defaultValue="Doe"
           />
           <br />
           <br />
