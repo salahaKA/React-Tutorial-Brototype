@@ -10,15 +10,22 @@ function Signup() {
   const [phone, setPhone] = useState("");
   const [Password, setPassword] = useState("");
 
-  const { firebase } = useContext(FirebaseContext);
+  const { auth } = useContext(FirebaseContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(firebase);
-    console.log("Username", Username);
-    console.log("Email", Email);
-    console.log("Phone", phone);
-    console.log("Password", Password);
-    // console.log(Username);
+    // console.log(firebase);
+    // console.log("Username", Username);
+    // console.log("Email", Email);
+    // console.log("Phone", phone);
+    // console.log("Password", Password);
+    auth
+      .createUserWithEmailAndPassword(Email, Password)
+      .then((result) => {
+        result.user.updateProfile({ displayName: Username });
+      })
+      .catch((error) => {
+        console.error("Error signing up:", error);
+      });
   };
 
   return (
