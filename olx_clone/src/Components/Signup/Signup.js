@@ -4,6 +4,7 @@ import Logo from "../../olx-logo.png";
 import "./Signup.css";
 import { FirebaseContext } from "../../store/FirebaseContex";
 
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 function Signup() {
   const [Username, setUsername] = useState("");
   const [Email, setEmail] = useState("");
@@ -18,10 +19,10 @@ function Signup() {
     // console.log("Email", Email);
     // console.log("Phone", phone);
     // console.log("Password", Password);
-    auth
-      .createUserWithEmailAndPassword(Email, Password)
+
+    createUserWithEmailAndPassword(auth, Email, Password)
       .then((result) => {
-        result.user.updateProfile({ displayName: Username });
+        updateProfile(result.user, { displayName: Username });
       })
       .catch((error) => {
         console.error("Error signing up:", error);
