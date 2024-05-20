@@ -1,19 +1,46 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Logo from "../../olx-logo.png";
 import "./Login.css";
-
+import { FirebaseContext } from "../../store/FirebaseContex";
+import { signInWithEmailAndPassword } from "firebase/auth";
 function Login() {
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
+  const { Firebase, auth } = useContext(FirebaseContext);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    //   Firebase.auth()
+    //     .signInWithEmailAndPassword(Email, Password)
+    //     .then(() => {
+    //       alert("Logged In");
+    //     })
+    //     .catch((error) => {
+    //       alert(error.message);
+    //     });
+    //
+    try {
+      await signInWithEmailAndPassword(auth, Email, Password);
+      alert("Logged In");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
     <div>
       <div className="loginParentDiv">
         <img width="200px" height="200px" src={Logo}></img>
-        <form>
+        <form onSubmit={handleLogin}>
           <label htmlFor="fname">Email</label>
           <br />
           <input
             className="input"
             type="email"
+            value={Email}
             id="fname"
+            onChange={(e) => setEmail(e.target.value)}
             name="email"
             defaultValue="John"
           />
@@ -23,15 +50,17 @@ function Login() {
           <input
             className="input"
             type="password"
+            value={Password}
             id="lname"
+            onChange={(e) => setPassword(e.target.value)}
             name="password"
             defaultValue="Doe"
           />
           <br />
           <br />
-          <button>Login</button>
+          <button type="submit">Login</button>
         </form>
-        <a>Signup</a>
+        <a href="/signup">Signup</a>
       </div>
     </div>
   );
