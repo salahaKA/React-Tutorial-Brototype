@@ -5,14 +5,21 @@ import "./Signup.css";
 import { FirebaseContext } from "../../store/FirebaseContex";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
+import { collection, addDoc } from "firebase/firestore";
+
+import { useNavigate } from "react-router-dom";
+
 function Signup() {
+  const navigate = useNavigate();
+
   const [Username, setUsername] = useState("");
   const [Email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [Password, setPassword] = useState("");
 
-  const { auth } = useContext(FirebaseContext);
-  const handleSubmit = (e) => {
+  const { auth, firestore } = useContext(FirebaseContext);
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(firebase);
     // console.log("Username", Username);
@@ -20,13 +27,46 @@ function Signup() {
     // console.log("Phone", phone);
     // console.log("Password", Password);
 
-    createUserWithEmailAndPassword(auth, Email, Password)
-      .then((result) => {
-        updateProfile(result.user, { displayName: Username });
-      })
-      .catch((error) => {
-        console.error("Error signing up:", error);
+    // createUserWithEmailAndPassword(auth, Email, Password)
+    //   .then((result) => {
+    //     updateProfile(result.user, { displayName: Username }).then(() => {
+    //       Firestore()
+    //         .collection("users")
+    //         .add({
+    //           id: result.user.uid,
+    //           username: Username,
+    //           phone: phone,
+    //         })
+    //         .then(() => {
+    //           navigate("/login");
+    //         });
+    //     });
+    //   })
+
+    //   .catch((error) => {
+    //     console.error("Error signing up:", error);
+    //   });
+
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        Email,
+        Password
+      );
+      await updateProfile(result.user, { displayName: Username });
+      await addDoc(collection(firestore, "users"), {
+        id: result.user.uid,
+        username: Username,
+        phone: phone,
       });
+      navigate("/login");
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        alert("Email already in use. Please use a different email.");
+      } else {
+        console.error("Error signing up:", error);
+      }
+    }
   };
 
   return (
@@ -85,7 +125,7 @@ function Signup() {
           <br />
           <button type="submit">Signup</button>
         </form>
-        <a>Login</a>
+        <a href="/login">Login</a>
       </div>
     </div>
   );
