@@ -3,9 +3,13 @@ import Logo from "../../olx-logo.png";
 import "./Login.css";
 import { FirebaseContext } from "../../store/FirebaseContex";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const { Firebase, auth } = useContext(FirebaseContext);
 
@@ -22,7 +26,8 @@ function Login() {
     //
     try {
       await signInWithEmailAndPassword(auth, Email, Password);
-      alert("Logged In");
+      // alert("Logged In");
+      navigate("/");
     } catch (error) {
       alert(error.message);
     }
