@@ -8,14 +8,16 @@ import { AuthContext, FirebaseContext } from "./store/FirebaseContex";
 // import FirebaseProvider from "./store/FirebaseContex";
 
 function App() {
-  const { user, setUser } = useContext(AuthContext);
-  const { Firebase } = useContext(FirebaseContext);
+  const { setUser } = useContext(AuthContext);
+  // const { Firebase } = useContext(FirebaseContext);
+  const { auth } = useContext(FirebaseContext);
   useEffect(() => {
     // console.log(user);
-    Firebase.auth().onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
     });
-  }, [user]);
+    return () => unsubscribe();
+  }, [auth, setUser]);
   return (
     // <FirebaseProvider>
     <div className="App">
