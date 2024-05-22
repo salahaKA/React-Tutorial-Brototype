@@ -3,15 +3,18 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { FirebaseContext } from "./store/FirebaseContex";
-import { Firebase } from "./firebase/config";
+// import Context, { FirebaseContext } from "./store/FirebaseContex";
+// import { Firebase } from "./firebase/config";
+import FirebaseProvider from "./store/FirebaseContex";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <FirebaseContext.Provider value={{ Firebase }}>
+    {/* <FirebaseContext.Provider value={{ Firebase }}> */}
+    <FirebaseProvider>
       <App />
-    </FirebaseContext.Provider>
+    </FirebaseProvider>
+    {/* </FirebaseContext.Provider> */}
   </React.StrictMode>
 );
 
