@@ -8,9 +8,7 @@ function Create() {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
   const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(URL.createObjectURL(e.target.files[0]));
-    }
+    setImage(e.target.files[0]);
   };
   return (
     <Fragment>
@@ -55,9 +53,14 @@ function Create() {
             <br />
           </form>
           <br />
-          {image && (
-            <img alt="Posts" width="200px" height="200px" src={image}></img>
-          )}
+
+          <img
+            alt="Posts"
+            width="200px"
+            height="200px"
+            src={image ? URL.createObjectURL(image) : ""}
+          ></img>
+
           <form>
             <br />
             <input type="file" onChange={handleImageChange} />
