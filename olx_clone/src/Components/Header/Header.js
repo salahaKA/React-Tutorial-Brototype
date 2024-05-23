@@ -21,6 +21,10 @@ function Header() {
     }
   };
 
+  const handleSellClick = () => {
+    navigate("/Create");
+  };
+
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
@@ -63,7 +67,7 @@ function Header() {
             </span>
           </div>
         )}
-        <div className="sellMenu">
+        <div className="sellMenu" onClick={handleSellClick}>
           <SellButton></SellButton>
           <div className="sellMenuContent">
             <SellButtonPlus></SellButtonPlus>
