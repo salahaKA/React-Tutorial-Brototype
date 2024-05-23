@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 import { AuthContext, FirebaseContext } from "../../store/FirebaseContex";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function Create() {
   const [name, setName] = useState("");
@@ -13,6 +14,8 @@ function Create() {
 
   const { storage, firestore } = useContext(FirebaseContext);
   const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -49,6 +52,7 @@ function Create() {
           });
 
           console.log("Document successfully written!");
+          navigate("/");
         }
       );
     } catch (error) {
