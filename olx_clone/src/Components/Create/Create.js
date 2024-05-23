@@ -1,21 +1,66 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import "./Create.css";
 import Header from "../Header/Header";
+import { AuthContext, FirebaseContext } from "../../store/FirebaseContex";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
 
 function Create() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
+
+  const { storage, firestore } = useContext(FirebaseContext);
+  const { user } = useContext(AuthContext);
+
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
+  };
+
+  const handleSubmit = async () => {
+    if (!image) {
+      console.log("No image selected");
+      return;
+    }
+
+    try {
+      // Upload image to Firebase Storage
+      const storageRef = ref(storage, `/images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          console.error("Upload failed:", error);
+        },
+        async () => {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          console.log("File available at", url);
+
+          await addDoc(collection(firestore, "products"), {
+            name,
+            category,
+            price,
+            imageUrl: url,
+            userId: user.uid,
+            createdAt: new Date(),
+          });
+
+          console.log("Document successfully written!");
+        }
+      );
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
   };
   return (
     <Fragment>
       <Header />
       <card>
         <div className="centerDiv">
-          <form>
+          <>
             <label htmlFor="fname">Name</label>
             <br />
             <input
@@ -51,7 +96,7 @@ function Create() {
               name="Price"
             />
             <br />
-          </form>
+          </>
           <br />
 
           <img
@@ -61,12 +106,14 @@ function Create() {
             src={image ? URL.createObjectURL(image) : ""}
           ></img>
 
-          <form>
+          <>
             <br />
             <input type="file" onChange={handleImageChange} />
             <br />
-            <button className="uploadBtn">upload and Submit</button>
-          </form>
+            <button onClick={handleSubmit} className="uploadBtn">
+              upload and Submit
+            </button>
+          </>
         </div>
       </card>
     </Fragment>
