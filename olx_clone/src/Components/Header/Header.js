@@ -15,6 +15,12 @@ function Header() {
   const { auth } = useContext(FirebaseContext);
   const navigate = useNavigate();
 
+  const handleLoginClick = () => {
+    if (!user) {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
@@ -41,7 +47,7 @@ function Header() {
           <span> ENGLISH </span>
           <Arrow></Arrow>
         </div>
-        <div className="loginPage">
+        <div className="loginPage" onClick={handleLoginClick}>
           <span>{user ? `Welcome ${user.displayName}` : "Login"}</span>
           <hr />
         </div>
