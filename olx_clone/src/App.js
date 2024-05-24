@@ -4,9 +4,9 @@ import Home from "./Pages/Home";
 import Signup from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Create from "./Pages/Create";
+import View from "./Pages/ViewPost";
 import { useContext, useEffect } from "react";
 import { AuthContext, FirebaseContext } from "./store/FirebaseContex";
-// import FirebaseProvider from "./store/FirebaseContex";
 
 function App() {
   const { setUser } = useContext(AuthContext);
@@ -28,6 +28,7 @@ function App() {
           <Route path="/signup" element={<Signup></Signup>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
           <Route path="/create" element={<Create></Create>}></Route>
+          <Route path="/view/:id" element={<View></View>}></Route>
         </Routes>
       </Router>
     </div>

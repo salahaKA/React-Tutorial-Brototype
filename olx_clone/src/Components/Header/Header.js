@@ -25,10 +25,14 @@ function Header() {
     navigate("/Create");
   };
 
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
-        <div className="brandName">
+        <div className="brandName" onClick={handleLogoClick}>
           <OlxLogo></OlxLogo>
         </div>
         <div className="placeSearch">

@@ -3,6 +3,7 @@ import "./Posts.css";
 import Heart from "../../assets/Heart";
 import { FirebaseContext } from "../../store/FirebaseContex";
 import { collection, getDocs } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 function Posts() {
   const { firestore } = useContext(FirebaseContext);
@@ -36,24 +37,26 @@ function Posts() {
         </div>
         <div className="cards">
           {products.map((product) => (
-            <div className="card" key={product.id}>
-              <div className="favorite">
-                <Heart />
+            <Link to={`/view/${product.id}`} key={product.id}>
+              <div className="card" key={product.id}>
+                <div className="favorite">
+                  <Heart />
+                </div>
+                <div className="image">
+                  <img src={product.imageUrl} alt={product.name} />
+                </div>
+                <div className="content">
+                  <p className="rate">&#x20B9; {product.price}</p>
+                  <span className="kilometer">{product.category}</span>
+                  <p className="name">{product.name}</p>
+                </div>
+                <div className="date">
+                  <span>
+                    {new Date(product.createdAt.toDate()).toDateString()}
+                  </span>
+                </div>
               </div>
-              <div className="image">
-                <img src={product.imageUrl} alt={product.name} />
-              </div>
-              <div className="content">
-                <p className="rate">&#x20B9; {product.price}</p>
-                <span className="kilometer">{product.category}</span>
-                <p className="name">{product.name}</p>
-              </div>
-              <div className="date">
-                <span>
-                  {new Date(product.createdAt.toDate()).toDateString()}
-                </span>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -63,24 +66,26 @@ function Posts() {
         </div>
         <div className="cards">
           {products.map((product) => (
-            <div className="card" key={product.id}>
-              <div className="favorite">
-                <Heart />
+            <Link to={`/view/${product.id}`} key={product.id}>
+              <div className="card" key={product.id}>
+                <div className="favorite">
+                  <Heart />
+                </div>
+                <div className="image">
+                  <img src={product.imageUrl} alt={product.name} />
+                </div>
+                <div className="content">
+                  <p className="rate">&#x20B9; {product.price}</p>
+                  <span className="kilometer">{product.category}</span>
+                  <p className="name">{product.name}</p>
+                </div>
+                <div className="date">
+                  <span>
+                    {new Date(product.createdAt.toDate()).toDateString()}
+                  </span>
+                </div>
               </div>
-              <div className="image">
-                <img src={product.imageUrl} alt={product.name} />
-              </div>
-              <div className="content">
-                <p className="rate">&#x20B9; {product.price}</p>
-                <span className="kilometer">{product.category}</span>
-                <p className="name">{product.name}</p>
-              </div>
-              <div className="date">
-                <span>
-                  {new Date(product.createdAt.toDate()).toDateString()}
-                </span>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
